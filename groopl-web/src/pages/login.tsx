@@ -4,7 +4,7 @@ import { Box, Button } from "@chakra-ui/react";
 import { Wrapper } from "../components/wrapper";
 import { InputField } from "../components/inputField";
 import { useLoginMutation } from "../generated/graphql";
-import { ToErrorMap } from "../../utils/toErrorMap";
+import { ToErrorMap } from "../utils/toErrorMap";
 import { useRouter } from "next/router";
 
 interface loginProps {}
