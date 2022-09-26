@@ -4,7 +4,7 @@ to set up the server locally, run:
  yarn install
  
 ```
-create a postgreSQL database and set it up on your .env file 
+create a postgreSQL database and set it up on your `.env` file 
  
 ```bash 
  DB_NAME = ""
