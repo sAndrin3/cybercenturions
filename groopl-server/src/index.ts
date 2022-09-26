@@ -8,12 +8,12 @@ import { buildSchema } from "type-graphql";
 import { PostResolver } from "./resolvers/post";
 import { UserResolver } from "./resolvers/user";
 import console from "console";
-import { MyContext } from "./types";
 import {
   ApolloServerPluginLandingPageDisabled,
   ApolloServerPluginLandingPageGraphQLPlayground,
 } from "apollo-server-core";
 import session from "express-session";
+import cors from "cors";
 
 const main = async () => {
   console.log(path.join(__dirname, "./migrations"));
@@ -33,6 +33,13 @@ const main = async () => {
     console.log("Redis Client Error", err)
   );
   redisClient.connect();
+
+  app.use(
+    cors({
+      origin: "http://localhost:3000",
+      credentials: true,
+    })
+  );
 
   app.use(
     session({
@@ -67,11 +74,14 @@ const main = async () => {
             },
           }),
     ],
-    context: ({ req, res }): MyContext => ({ em: orm.em, req, res }),
+    context: ({ req, res }) => ({ em: orm.em, req, res }),
   });
 
   await apolloServer.start();
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({
+    app,
+    cors: false,
+  });
 
   app.listen(4000, () => {
     console.log(`app listening on localhost:4000 !`);

@@ -1,8 +1,4 @@
-# CupidSwap
-
-Match Making Social Web App
-
-to set up the project locally, run:
+to set up the server locally, run:
 
 ``` bash 
  yarn install
@@ -19,6 +15,7 @@ create a postgreSQL database and set it up on your .env file
 then run 
 
 ```bash
+ yarn create:migration
  yarn watch
 
 ```
