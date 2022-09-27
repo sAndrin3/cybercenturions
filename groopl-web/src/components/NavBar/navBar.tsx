@@ -9,16 +9,21 @@ import {
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import Logo from "../../assets/images/logos/groopl.svg";
 import Image from "next/image";
-import { useMeQuery } from "../../generated/graphql";
+import { useLogoutMutation, useMeQuery } from "../../generated/graphql";
 import { DesktopNav } from "./desktopNav";
 import { NavItem } from "./navItem";
 import { MobileNav } from "./mobileNav";
 import { LoginRegisterFragment } from "./userFragments/loginRegisterFragment";
 import { AccountFragment } from "./userFragments/accountFragment";
+import { isServer } from "../../utils/isServer";
 
 export default function NavBar() {
   const { isOpen, onToggle } = useDisclosure();
-  const [{ data, fetching }] = useMeQuery();
+  const [{ data, fetching }] = useMeQuery({
+    pause: isServer(),
+  });
+  
+  const [, logout] = useLogoutMutation();
 
   let body;
 
@@ -30,7 +35,7 @@ export default function NavBar() {
     body = LoginRegisterFragment({ props: {} });
   } else if (data.me.username) {
     const username = data.me.username;
-    body = AccountFragment({ username });
+    body = AccountFragment({ username, logout });
   }
 
   return (

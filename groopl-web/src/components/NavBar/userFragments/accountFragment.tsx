@@ -12,11 +12,16 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 
+
 interface accountFragmentProps {
   username: string;
+  logout: (variable?: any) => any;
 }
 
-export const AccountFragment: React.FC<accountFragmentProps> = ({ username }) => {
+export const AccountFragment: React.FC<accountFragmentProps> = ({
+  username,
+  logout,
+}) => {
   return (
     <>
       <Stack
@@ -48,7 +53,13 @@ export const AccountFragment: React.FC<accountFragmentProps> = ({ username }) =>
               <MenuItem>Profile</MenuItem>
               <MenuItem>Account Settings</MenuItem>
               <MenuDivider />
-              <MenuItem color={"red"} fontWeight={"500"}>
+              <MenuItem
+                onClick={() => {
+                  logout();
+                }}
+                color={"red"}
+                fontWeight={"500"}
+              >
                 Logout
               </MenuItem>
             </MenuList>
