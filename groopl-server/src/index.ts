@@ -1,5 +1,4 @@
 import { MikroORM } from "@mikro-orm/core"
-import path from "path"
 import { COOKIE_NAME, __prod__ } from "./constants";
 import mikroConfig from "./mikro-orm.config";
 import express from "express";
@@ -14,12 +13,11 @@ import {
 } from "apollo-server-core";
 import session from "express-session";
 import cors from "cors";
+import { User } from "./entitites/User";
 
 const main = async () => {
-  console.log(path.join(__dirname, "./migrations"));
   const orm = await MikroORM.init(mikroConfig);
-  const migrator = orm.getMigrator();
-  await migrator.up();
+  await orm.getMigrator().up();
 
   const app = express();
 
