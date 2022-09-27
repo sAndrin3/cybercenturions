@@ -15,14 +15,16 @@ import { NavItem } from "./navItem";
 import { MobileNav } from "./mobileNav";
 import { LoginRegisterFragment } from "./userFragments/loginRegisterFragment";
 import { AccountFragment } from "./userFragments/accountFragment";
-import { isServer } from "../../utils/isServer";
+import { useEffect, useState } from "react";
 
 export default function NavBar() {
   const { isOpen, onToggle } = useDisclosure();
+  const [isServer, setIsServer] = useState(true);
   const [{ data, fetching }] = useMeQuery({
-    pause: isServer(),
+    pause: isServer,
   });
-  
+
+  console.log("data: ", data);
   const [, logout] = useLogoutMutation();
 
   let body;
@@ -37,6 +39,9 @@ export default function NavBar() {
     const username = data.me.username;
     body = AccountFragment({ username, logout });
   }
+  useEffect(() => {
+    setIsServer(false);
+  }, []);
 
   return (
     <Box>
