@@ -11,8 +11,8 @@ import {
 } from "type-graphql";
 import argon2 from "argon2";
 import { COOKIE_NAME } from "../constants";
-import { UsernamePasswordInput } from "../utils/UsernamePasswordInput";
-import { ValidateRegister } from "src/utils/validateRegister";
+import { UsernameEmailPasswordInput } from "../utils/UsernamePasswordInput";
+import { ValidateRegister } from "../utils/validateRegister";
 
 @ObjectType()
 class FieldError {
@@ -53,11 +53,12 @@ export class UserResolver {
   //REGISTER
   @Mutation(() => UserResponse)
   async register(
-    @Arg("options") options: UsernamePasswordInput,
+    @Arg("options") options: UsernameEmailPasswordInput,
     @Ctx() { req, em }: MyContext
   ): Promise<UserResponse> {
     const hashedPassword = await argon2.hash(options.password);
     const user = em.create(User, {
+      email: options.email,
       username: options.username,
       password: hashedPassword,
     });
@@ -94,18 +95,19 @@ export class UserResolver {
     @Arg("password") password: string,
     @Ctx() { em, req }: MyContext
   ): Promise<UserResponse> {
+    const isEmail = usernameOrEmail.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
     const user = await em.findOne(
       User,
-      usernameOrEmail.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)
-        ? { email: usernameOrEmail }
-        : { username: usernameOrEmail }
+      isEmail ? { email: usernameOrEmail } : { username: usernameOrEmail }
     );
     if (!user) {
       return {
         errors: [
           {
-            field: "username",
-            message: "that username doesn't exist",
+            field: "usernameOrEmail",
+            message: isEmail
+              ? "that email doesn't exist"
+              : "that username doesn't exist",
           },
         ],
       };

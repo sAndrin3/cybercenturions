@@ -1,14 +1,6 @@
-import { UsernamePasswordInput } from "./UsernamePasswordInput";
+import { UsernameEmailPasswordInput } from "./UsernamePasswordInput";
 
-export const ValidateRegister = (options: UsernamePasswordInput) => {
-  if (!options.email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
-    return [
-      {
-        field: "email",
-        message: "invalid email",
-      },
-    ];
-  }
+export const ValidateRegister = (options: UsernameEmailPasswordInput) => {
   if (!options.username.match(/^[a-zA-Z0-9]+$/)) {
     return [
       {
@@ -22,6 +14,14 @@ export const ValidateRegister = (options: UsernamePasswordInput) => {
       {
         field: "username",
         message: "username has to be longer than 2 characters",
+      },
+    ];
+  }
+  if (!options.email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+    return [
+      {
+        field: "email",
+        message: "invalid email",
       },
     ];
   }

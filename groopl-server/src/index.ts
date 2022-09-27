@@ -13,7 +13,6 @@ import {
 } from "apollo-server-core";
 import session from "express-session";
 import cors from "cors";
-import { User } from "./entitites/User";
 
 const main = async () => {
   const orm = await MikroORM.init(mikroConfig);

@@ -116,12 +116,12 @@ const NAV_ITEMS: Array<NavItem> = [
       },
     ],
   },
-  {
-    label: "Learn Design",
-    href: "#",
-  },
-  {
-    label: "Hire Designers",
-    href: "#",
-  },
+  // {
+  //   label: "Learn Design",
+  //   href: "#",
+  // },
+  // {
+  //   label: "Hire Designers",
+  //   href: "#",
+  // },
 ];
