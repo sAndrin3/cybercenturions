@@ -1,5 +1,5 @@
 import { MikroORM } from "@mikro-orm/core"
-import { COOKIE_NAME, __prod__ } from "./constants";
+import { COOKIE_NAME, secret, __prod__ } from "./constants";
 import mikroConfig from "./mikro-orm.config";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
@@ -13,6 +13,8 @@ import {
 } from "apollo-server-core";
 import session from "express-session";
 import cors from "cors";
+import Redis from "ioredis";
+import connectRedis from "connect-redis";
 
 const main = async () => {
   const orm = await MikroORM.init(mikroConfig);
@@ -20,16 +22,12 @@ const main = async () => {
 
   const app = express();
 
-  let RedisStore = require("connect-redis")(session);
+  let RedisStore = connectRedis(session);
 
-  // redis@v4
-  const { createClient } = require("redis");
-  let redisClient = createClient({ legacyMode: true });
-  redisClient.on("connect", () => console.log("Connected to Redis!"));
-  redisClient.on("error", (err: Error) =>
-    console.log("Redis Client Error", err)
-  );
-  redisClient.connect();
+  //ioredis
+  const redis = new Redis();
+  redis.on("connect", () => console.log("Connected to Redis"));
+  redis.on("error", (err: Error) => console.log("Redis Client Error ", err));
 
   app.use(
     cors({
@@ -42,7 +40,7 @@ const main = async () => {
     session({
       name: COOKIE_NAME,
       store: new RedisStore({
-        client: redisClient,
+        client: redis,
         disableTouch: true,
       }),
       cookie: {
@@ -52,7 +50,7 @@ const main = async () => {
         secure: __prod__,
       },
       saveUninitialized: false,
-      secret: "qweqweqwe",
+      secret: secret,
       resave: false,
     })
   );
@@ -71,7 +69,7 @@ const main = async () => {
             },
           }),
     ],
-    context: ({ req, res }) => ({ em: orm.em, req, res }),
+    context: ({ req, res }) => ({ em: orm.em, req, res, redis }),
   });
 
   await apolloServer.start();
