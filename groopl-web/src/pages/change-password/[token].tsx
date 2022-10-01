@@ -1,14 +1,10 @@
-import { Button, Box, IconButton } from "@chakra-ui/react";
+import { Button, Box } from "@chakra-ui/react";
 import { Formik, Form } from "formik";
 import { NextPage } from "next";
 import { InputField } from "../../components/inputField";
 import { Wrapper } from "../../components/wrapper";
-import { useState } from "react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 const ChangePassword: NextPage<{ token: string }> = ({ token }) => {
-  const [show, setShow] = useState(false);
-  const handleIconClick = () => setShow(!show);
 
   return (
     <Wrapper variant="small">

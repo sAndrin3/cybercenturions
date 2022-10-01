@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Form, Formik } from "formik";
-import { Box, Button, IconButton } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import { Wrapper } from "../components/wrapper";
 import { InputField } from "../components/inputField";
 import { useLoginMutation } from "../generated/graphql";
@@ -8,15 +8,13 @@ import { ToErrorMap } from "../utils/toErrorMap";
 import { useRouter } from "next/router";
 import { withUrqlClient } from "next-urql";
 import { CreateUrqlClient } from "../utils/createUrqlClient";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+
 
 interface loginProps {}
 
 const Login: React.FC<loginProps> = ({}) => {
   const [, login] = useLoginMutation();
   const router = useRouter();
-  const [show, setShow] = useState(false);
-  const handleIconClick = () => setShow(!show);
 
   return (
     <Wrapper variant="small">
