@@ -56,7 +56,7 @@ export const AccountFragment: React.FC<accountFragmentProps> = ({
                 onClick={() => {
                   logout();
                 }}
-                color={"red"}
+                color={"red.500"}
                 fontWeight={"500"}
               >
                 Logout

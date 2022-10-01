@@ -70,9 +70,9 @@ const Login: React.FC<loginProps> = ({}) => {
             </Stack>
             <Stack pt={6}>
               <Text align={"center"}>
-                Don't have an account?{" "}
+                Don't have an account?
                 <NextLink href={"/register"}>
-                  <Link color={"blue.400"}>Create one</Link>
+                  <Link ml={3} color={"blue.400"}>Create one</Link>
                 </NextLink>
               </Text>
             </Stack>

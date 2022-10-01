@@ -16,6 +16,7 @@ import { MobileNav } from "./mobileNav";
 import { LoginRegisterFragment } from "./userFragments/loginRegisterFragment";
 import { AccountFragment } from "./userFragments/accountFragment";
 import { useEffect, useState } from "react";
+import { DarkModeSwitch } from "../darkModeSwitch";
 
 export default function NavBar() {
   const { isOpen, onToggle } = useDisclosure();
@@ -23,39 +24,38 @@ export default function NavBar() {
   const [{ data, fetching }] = useMeQuery({
     pause: isServer,
   });
-    const [width, setWidth] = useState<number>(
-      typeof window !== "undefined" ? window.innerWidth : 0
-    );
+  const [width, setWidth] = useState<number>(
+    typeof window !== "undefined" ? window.innerWidth : 0
+  );
 
-    function handleWindowSizeChange() {
-      setWidth(window.innerWidth);
-    }
+  function handleWindowSizeChange() {
+    setWidth(window.innerWidth);
+  }
 
-    const isMobile = width <= 768;
+  const isMobile = width <= 768;
 
-    console.log("data: ", data);
-    const [, logout] = useLogoutMutation();
+  console.log("data: ", data);
+  const [, logout] = useLogoutMutation();
 
-    let body;
+  let body;
 
-    if (fetching) {
-      //body is null
-      body = null;
-    } else if (!data?.me?.username) {
-      //set body to signup or login
-      body = LoginRegisterFragment({ props: {} });
-    } else if (data.me.username) {
-      const username = isMobile ? "" : data.me.username;
-      body = AccountFragment({ username, logout });
-    }
-    useEffect(() => {
-      setIsServer(false);
-      window.addEventListener("resize", handleWindowSizeChange);
-      return () => {
-        window.removeEventListener("resize", handleWindowSizeChange);
-      };
-    }, []);
-  
+  if (fetching) {
+    //body is null
+    body = null;
+  } else if (!data?.me?.username) {
+    //set body to signup or login
+    body = LoginRegisterFragment({ props: {} });
+  } else if (data.me.username) {
+    const username = isMobile ? "" : data.me.username;
+    body = AccountFragment({ username, logout });
+  }
+  useEffect(() => {
+    setIsServer(false);
+    window.addEventListener("resize", handleWindowSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
+  }, []);
 
   return (
     <Box>
@@ -64,10 +64,10 @@ export default function NavBar() {
         color={useColorModeValue("gray.600", "white")}
         minH={"60px"}
         py={{ base: 2 }}
-        px={isMobile ? { base: 8 } : {base: 16}}
-        borderBottom={1}
+        px={isMobile ? { base: 8 } : { base: 16 }}
+        borderBottom={2}
         borderStyle={"solid"}
-        borderColor={useColorModeValue("gray.200", "gray.900")}
+        borderColor={useColorModeValue("gray.300", "black")}
         align={"center"}
       >
         <Flex
@@ -90,6 +90,7 @@ export default function NavBar() {
             <DesktopNav NAV_ITEMS={NAV_ITEMS} />
           </Flex>
         </Flex>
+        <DarkModeSwitch />
         {body}
       </Flex>
       <Collapse in={isOpen} animateOpacity>
