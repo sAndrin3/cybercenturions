@@ -13,8 +13,13 @@ const ChangePassword: NextPage<{ token: string }> = ({ token }) => {
   return (
     <Wrapper variant="small">
       <Formik
-        initialValues={{ usernameOrEmail: "", password: "" }}
+        initialValues={{ newPassword: "", repeatPassword: "" }}
         onSubmit={async (values, { setErrors }) => {
+          if (values.newPassword !== values.repeatPassword) {
+            setErrors({
+              repeatPassword: "these passwords do not match",
+            });
+          }
           // const response = await login(values);
           // if (response.data?.login.errors) {
           //   setErrors(ToErrorMap(response.data.login.errors));
@@ -26,7 +31,7 @@ const ChangePassword: NextPage<{ token: string }> = ({ token }) => {
         {({ isSubmitting }) => (
           <Form>
             <InputField
-              name="password"
+              name="newPassword"
               placeholder="new password"
               label="New Password"
               required={true}

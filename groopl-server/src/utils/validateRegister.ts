@@ -29,7 +29,7 @@ export const ValidateRegister = (options: UsernameEmailPasswordInput) => {
     return [
       {
         field: "password",
-        message: "password has to be longer than 8 characters",
+        message: "length must be greater than 7",
       },
     ];
   }
