@@ -49,14 +49,13 @@ const Login: React.FC<loginProps> = ({}) => {
               required={true}
               isPassword={true}
             />
-            <Stack spacing={10}>
-              <Stack pt={2} align="end">
+            <Stack spacing={5}>
+              <Stack pt={4} align="end">
                 <NextLink href={"/forgot-password"}>
                   <Link color={"blue.400"}>Forgot Password?</Link>
                 </NextLink>
               </Stack>
               <Button
-                width="100%"
                 isLoading={isSubmitting}
                 size="lg"
                 bg={"blue.400"}
@@ -68,6 +67,14 @@ const Login: React.FC<loginProps> = ({}) => {
               >
                 login
               </Button>
+            </Stack>
+            <Stack pt={6}>
+              <Text align={"center"}>
+                Don't have an account?{" "}
+                <NextLink href={"/register"}>
+                  <Link color={"blue.400"}>Create one</Link>
+                </NextLink>
+              </Text>
             </Stack>
           </Form>
         )}

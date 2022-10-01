@@ -75,7 +75,7 @@ const ChangePassword: NextPage<{ token: string }> = ({ token }) => {
               </Box>
             ) : null}
             <Box mt={8} />
-            <Stack spacing={10}>
+            <Stack>
               <Button
                 bg={"blue.400"}
                 color={"white"}

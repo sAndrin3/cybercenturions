@@ -40,7 +40,7 @@ const Register: React.FC<registerProps> = ({}) => {
             <Box mt={4} />
             <InputField
               name="email"
-              placeholder="email"
+              placeholder="your-email@example.com"
               label="Email"
               required={true}
             />
@@ -53,7 +53,7 @@ const Register: React.FC<registerProps> = ({}) => {
               isPassword={true}
             />
             <Box mt={8} />
-            <Stack spacing={10}>
+            <Stack>
               <Button
                 isLoading={isSubmitting}
                 size="lg"
