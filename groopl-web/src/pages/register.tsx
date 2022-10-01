@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Formik } from "formik";
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Link, Stack, Text } from "@chakra-ui/react";
 import { Wrapper } from "../components/wrapper";
 import { InputField } from "../components/inputField";
 import { useRegisterMutation } from "../generated/graphql";
@@ -8,6 +8,7 @@ import { ToErrorMap } from "../utils/toErrorMap";
 import { useRouter } from "next/router";
 import { withUrqlClient } from "next-urql";
 import { CreateUrqlClient } from "../utils/createUrqlClient";
+import NextLink from "next/link";
 
 interface registerProps {}
 
@@ -16,7 +17,7 @@ const Register: React.FC<registerProps> = ({}) => {
   const router = useRouter();
 
   return (
-    <Wrapper variant="small">
+    <Wrapper variant="small" heading="Sign up" text="to create a new account">
       <Formik
         initialValues={{ email: "", username: "", password: "" }}
         onSubmit={async (values, { setErrors }) => {
@@ -46,20 +47,34 @@ const Register: React.FC<registerProps> = ({}) => {
             <Box mt={4} />
             <InputField
               name="password"
-              placeholder="new password"
+              placeholder="password"
               label="Password"
               required={true}
               isPassword={true}
             />
             <Box mt={8} />
-            <Button
-              width="100%"
-              isLoading={isSubmitting}
-              colorScheme="teal"
-              type="submit"
-            >
-              register
-            </Button>
+            <Stack spacing={10}>
+              <Button
+                isLoading={isSubmitting}
+                size="lg"
+                bg={"blue.400"}
+                color={"white"}
+                _hover={{
+                  bg: "blue.500",
+                }}
+                type="submit"
+              >
+                Sign Up
+              </Button>
+            </Stack>
+            <Stack pt={6}>
+              <Text align={"center"}>
+                Already a user?{" "}
+                <NextLink href={"/login"}>
+                  <Link color={"blue.400"}>Login</Link>
+                </NextLink>
+              </Text>
+            </Stack>
           </Form>
         )}
       </Formik>

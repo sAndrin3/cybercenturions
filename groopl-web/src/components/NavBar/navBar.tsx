@@ -23,25 +23,39 @@ export default function NavBar() {
   const [{ data, fetching }] = useMeQuery({
     pause: isServer,
   });
+    const [width, setWidth] = useState<number>(
+      typeof window !== "undefined" ? window.innerWidth : 0
+    );
 
-  console.log("data: ", data);
-  const [, logout] = useLogoutMutation();
+    function handleWindowSizeChange() {
+      setWidth(window.innerWidth);
+    }
 
-  let body;
+    const isMobile = width <= 768;
 
-  if (fetching) {
-    //body is null
-    body = null;
-  } else if (!data?.me?.username) {
-    //set body to signup or login
-    body = LoginRegisterFragment({ props: {} });
-  } else if (data.me.username) {
-    const username = data.me.username;
-    body = AccountFragment({ username, logout });
-  }
-  useEffect(() => {
-    setIsServer(false);
-  }, []);
+    console.log("data: ", data);
+    const [, logout] = useLogoutMutation();
+
+    let body;
+
+    if (fetching) {
+      //body is null
+      body = null;
+    } else if (!data?.me?.username) {
+      //set body to signup or login
+      body = LoginRegisterFragment({ props: {} });
+    } else if (data.me.username) {
+      const username = isMobile ? "" : data.me.username;
+      body = AccountFragment({ username, logout });
+    }
+    useEffect(() => {
+      setIsServer(false);
+      window.addEventListener("resize", handleWindowSizeChange);
+      return () => {
+        window.removeEventListener("resize", handleWindowSizeChange);
+      };
+    }, []);
+  
 
   return (
     <Box>
@@ -50,7 +64,7 @@ export default function NavBar() {
         color={useColorModeValue("gray.600", "white")}
         minH={"60px"}
         py={{ base: 2 }}
-        px={{ base: 8 }}
+        px={isMobile ? { base: 8 } : {base: 16}}
         borderBottom={1}
         borderStyle={"solid"}
         borderColor={useColorModeValue("gray.200", "gray.900")}

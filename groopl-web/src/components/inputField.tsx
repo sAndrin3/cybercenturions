@@ -16,12 +16,14 @@ type inputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   rightEl?: any;
   label: string;
   name: string;
+  required?: boolean;
 };
 
 export const InputField: React.FC<inputFieldProps> = ({
   isPassword,
   rightEl,
   label,
+  required,
   size: _,
   ...props
 }) => {
@@ -31,7 +33,7 @@ export const InputField: React.FC<inputFieldProps> = ({
 
   return isPassword ? (
     <>
-      <FormControl isInvalid={!!error}>
+      <FormControl isInvalid={!!error} isRequired={required}>
         <FormLabel>{label}</FormLabel>
         <InputGroup>
           <Input
@@ -41,7 +43,7 @@ export const InputField: React.FC<inputFieldProps> = ({
             id={field.name}
             placeholder={props.placeholder}
           />
-          <InputRightElement>
+          <InputRightElement h={"full"}>
             <IconButton
               variant={"unstyled"}
               aria-label="Show Password"
@@ -55,7 +57,7 @@ export const InputField: React.FC<inputFieldProps> = ({
     </>
   ) : (
     <>
-      <FormControl isInvalid={!!error}>
+      <FormControl isInvalid={!!error} isRequired={required}>
         <FormLabel>{label}</FormLabel>
         <Input
           {...field}

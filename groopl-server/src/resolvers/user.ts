@@ -52,7 +52,8 @@ export class UserResolver {
       };
     }
 
-    const userId = await redis.get(FORGET_PASSWORD_PREFIX + token);
+    const key = FORGET_PASSWORD_PREFIX + token;
+    const userId = await redis.get(key);
     if (!userId) {
       return {
         errors: [
@@ -82,6 +83,8 @@ export class UserResolver {
 
     //login user
     req.session.userId = user.id
+
+    await redis.del(key)
 
     return { user };
   }

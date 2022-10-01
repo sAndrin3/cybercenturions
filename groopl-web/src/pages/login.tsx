@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Formik } from "formik";
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Link, Stack, Text } from "@chakra-ui/react";
 import { Wrapper } from "../components/wrapper";
 import { InputField } from "../components/inputField";
 import { useLoginMutation } from "../generated/graphql";
@@ -8,7 +8,7 @@ import { ToErrorMap } from "../utils/toErrorMap";
 import { useRouter } from "next/router";
 import { withUrqlClient } from "next-urql";
 import { CreateUrqlClient } from "../utils/createUrqlClient";
-
+import NextLink from "next/link";
 
 interface loginProps {}
 
@@ -17,7 +17,11 @@ const Login: React.FC<loginProps> = ({}) => {
   const router = useRouter();
 
   return (
-    <Wrapper variant="small">
+    <Wrapper
+      variant="small"
+      heading="Sign in to your account"
+      text="to enjoy all of our cool features 🤟"
+    >
       <Formik
         initialValues={{ usernameOrEmail: "", password: "" }}
         onSubmit={async (values, { setErrors }) => {
@@ -40,20 +44,31 @@ const Login: React.FC<loginProps> = ({}) => {
             <Box mt={4} />
             <InputField
               name="password"
-              placeholder="new password"
+              placeholder="password"
               label="Password"
               required={true}
               isPassword={true}
             />
-            <Box mt={8} />
-            <Button
-              width="100%"
-              isLoading={isSubmitting}
-              colorScheme="teal"
-              type="submit"
-            >
-              login
-            </Button>
+            <Stack spacing={10}>
+              <Stack pt={2} align="end">
+                <NextLink href={"/forgot-password"}>
+                  <Link color={"blue.400"}>Forgot Password?</Link>
+                </NextLink>
+              </Stack>
+              <Button
+                width="100%"
+                isLoading={isSubmitting}
+                size="lg"
+                bg={"blue.400"}
+                color={"white"}
+                _hover={{
+                  bg: "blue.500",
+                }}
+                type="submit"
+              >
+                login
+              </Button>
+            </Stack>
           </Form>
         )}
       </Formik>

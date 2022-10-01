@@ -12,7 +12,6 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 
-
 interface accountFragmentProps {
   username: string;
   logout: (variable?: any) => any;
