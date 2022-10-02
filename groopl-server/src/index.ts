@@ -1,6 +1,4 @@
-import { MikroORM } from "@mikro-orm/core"
-import { COOKIE_NAME, secret, __prod__ } from "./constants";
-import mikroConfig from "./mikro-orm.config";
+import { COOKIE_NAME, dbName, dbPass, secret, __prod__ } from "./constants";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
@@ -15,10 +13,23 @@ import session from "express-session";
 import cors from "cors";
 import Redis from "ioredis";
 import connectRedis from "connect-redis";
+import { DataSource } from 'typeorm'
+import { Post } from "./entitites/Post";
+import { User } from "./entitites/User";
 
 const main = async () => {
-  const orm = await MikroORM.init(mikroConfig);
-  await orm.getMigrator().up();
+  const dataSource = new DataSource({
+    type: "postgres",
+    host: "localhost",
+    port: 5432,
+    username: "postgres",
+    password: dbPass,
+    database: dbName,
+    logging: true,
+    synchronize: true,
+    entities: [User, Post],
+  });
+  await dataSource.initialize()
 
   const app = express();
 
@@ -69,7 +80,7 @@ const main = async () => {
             },
           }),
     ],
-    context: ({ req, res }) => ({ em: orm.em, req, res, redis }),
+    context: ({ req, res }) => ({ req, res, redis }),
   });
 
   await apolloServer.start();
