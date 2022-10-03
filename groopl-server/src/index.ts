@@ -31,6 +31,8 @@ const main = async () => {
   });
   await dataSource.initialize()
 
+  // await Post.delete({})
+
   const app = express();
 
   let RedisStore = connectRedis(session);
@@ -38,7 +40,7 @@ const main = async () => {
   //ioredis
   const redis = new Redis();
   redis.on("connect", () => console.log("Connected to Redis"));
-  redis.on("error", (err: Error) => console.log("Redis Client Error ", err));
+  redis.on("error", (err: Error) => console.log("Redis Client Error: ", err));
 
   app.use(
     cors({
