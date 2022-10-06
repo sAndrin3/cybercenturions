@@ -3,4 +3,7 @@ fragment Post_Data on Post {
   createdAt
   updatedAt
   title
+  text
+  points
+  creatorId
 }

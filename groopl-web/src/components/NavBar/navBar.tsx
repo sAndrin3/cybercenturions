@@ -17,6 +17,7 @@ import { LoginRegisterFragment } from "./userFragments/loginRegisterFragment";
 import { AccountFragment } from "./userFragments/accountFragment";
 import { useEffect, useState } from "react";
 import { DarkModeSwitch } from "../darkModeSwitch";
+import NextLink from "next/link";
 
 export default function NavBar() {
   const { isOpen, onToggle } = useDisclosure();
@@ -24,15 +25,6 @@ export default function NavBar() {
   const [{ data, fetching }] = useMeQuery({
     pause: isServer,
   });
-  const [width, setWidth] = useState<number>(
-    typeof window !== "undefined" ? window.innerWidth : 0
-  );
-
-  function handleWindowSizeChange() {
-    setWidth(window.innerWidth);
-  }
-
-  const isMobile = width <= 768;
 
   console.log("data: ", data);
   const [, logout] = useLogoutMutation();
@@ -40,33 +32,28 @@ export default function NavBar() {
   let body;
 
   if (fetching) {
+    body = LoginRegisterFragment({ props: {} });
     //body is null
-    body = null;
   } else if (!data?.me?.username) {
     //set body to signup or login
     body = LoginRegisterFragment({ props: {} });
   } else if (data.me.username) {
-    const username = isMobile ? "" : data.me.username;
+    const username = data.me.username;
     body = AccountFragment({ username, logout });
   }
   useEffect(() => {
     setIsServer(false);
-    window.addEventListener("resize", handleWindowSizeChange);
-    return () => {
-      window.removeEventListener("resize", handleWindowSizeChange);
-    };
   }, []);
 
   return (
-    <Box>
+    <Box position={"sticky"} scrollMarginY={"100%"}>
       <Flex
-        bg={useColorModeValue("white", "gray.800")}
+        bg={useColorModeValue("white", "gray.700")}
         color={useColorModeValue("gray.600", "white")}
         minH={"60px"}
         py={{ base: 2 }}
-        px={isMobile ? { base: 8 } : { base: 16 }}
-        borderBottom={2}
-        borderStyle={"solid"}
+        px={{ base: 8, md: 16 }}
+        boxShadow={useColorModeValue("md", "lg")}
         borderColor={useColorModeValue("gray.300", "black")}
         align={"center"}
       >
@@ -85,13 +72,20 @@ export default function NavBar() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
-          <Image src={Logo} priority={true} />
+          <NextLink href={"/"}>
+            <Image src={Logo} priority={true}/>
+          </NextLink>
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav NAV_ITEMS={NAV_ITEMS} />
           </Flex>
         </Flex>
-        <DarkModeSwitch />
-        {body}
+        <Flex display={{ base: "none", md: "flex" }}>
+          <DarkModeSwitch />
+          {body}
+        </Flex>
+        <Flex flex={{ base: 1 }} display={{ base: "flex", md: "none" }}>
+          {body}
+        </Flex>
       </Flex>
       <Collapse in={isOpen} animateOpacity>
         <MobileNav NAV_ITEMS={NAV_ITEMS} />
@@ -131,12 +125,4 @@ const NAV_ITEMS: Array<NavItem> = [
       },
     ],
   },
-  // {
-  //   label: "Learn Design",
-  //   href: "#",
-  // },
-  // {
-  //   label: "Hire Designers",
-  //   href: "#",
-  // },
 ];

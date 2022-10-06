@@ -6,7 +6,7 @@ import {
   useColorModeValue,
   Text,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 interface wrapperProps {
   children: any;
@@ -21,19 +21,6 @@ export const Wrapper: React.FC<wrapperProps> = ({
   text = "",
   heading,
 }) => {
-  const [width, setWidth] = useState<number>(typeof window !== "undefined" ? window.innerWidth : 0);
-
-  function handleWindowSizeChange() {
-    setWidth(window.innerWidth);
-  }
-  useEffect(() => {
-    window.addEventListener("resize", handleWindowSizeChange);
-    return () => {
-      window.removeEventListener("resize", handleWindowSizeChange);
-    };
-  }, []);
-
-  const isMobile = width <= 768;
   return (
     <Flex
       minH={"100vh"}
@@ -57,7 +44,7 @@ export const Wrapper: React.FC<wrapperProps> = ({
           </Text>
         </Stack>
         <Box
-          minW={isMobile ? "xs" : "sm"}
+          minW={{base:"xs" , md:"sm"}}
           rounded={"lg"}
           bg={useColorModeValue("white", "gray.700")}
           boxShadow={"lg"}

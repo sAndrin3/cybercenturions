@@ -7,7 +7,11 @@ import {
   Mutation,
   InputType,
   Field,
+  Ctx,
+  UseMiddleware,
 } from "type-graphql";
+import { MyContext } from "src/types";
+import { IsAuth } from "../utils/isAuth";
 
 @InputType()
 class PostInput {
@@ -30,9 +34,16 @@ export class PostResolver {
     return Post.findOne({ where: { id } });
   }
 
-  @Mutation(() => Post, { nullable: true })
-  async createPost(@Arg("input", () => PostInput) input: PostInput): Promise<Post> {
-    return Post.create({ title: input.title, text: input.text }).save();
+  @Mutation(() => Post)
+  @UseMiddleware(IsAuth)
+  async createPost(
+    @Arg("input") input: PostInput,
+    @Ctx() { req }: MyContext
+  ): Promise<Post> {
+    return Post.create({
+      ...input,
+      creatorId: req.session.userId,
+    }).save();
   }
 
   @Mutation(() => Post, { nullable: true })

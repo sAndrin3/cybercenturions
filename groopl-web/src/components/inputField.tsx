@@ -7,6 +7,7 @@ import {
   InputGroup,
   IconButton,
   InputRightElement,
+  Textarea,
 } from "@chakra-ui/react";
 import { useField } from "formik";
 import React, { InputHTMLAttributes, useState } from "react";
@@ -15,6 +16,7 @@ type inputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   isPassword?: boolean;
   rightEl?: any;
   label: string;
+  textarea?: boolean;
   name: string;
   required?: boolean;
 };
@@ -23,6 +25,7 @@ export const InputField: React.FC<inputFieldProps> = ({
   isPassword,
   rightEl,
   label,
+  textarea,
   required,
   size: _,
   ...props
@@ -30,13 +33,17 @@ export const InputField: React.FC<inputFieldProps> = ({
   const [field, { error }] = useField(props);
   const [show, setShow] = useState(false);
   const handleIconClick = () => setShow(!show);
+  let InputOrTextarea =  Input;
+  if(textarea){
+    InputOrTextarea = Textarea
+  }
 
   return isPassword ? (
     <>
       <FormControl isInvalid={!!error} isRequired={required}>
         <FormLabel>{label}</FormLabel>
         <InputGroup>
-          <Input
+          <InputOrTextarea
             {...field}
             {...props}
             type={show ? "text" : "password"}
@@ -59,7 +66,7 @@ export const InputField: React.FC<inputFieldProps> = ({
     <>
       <FormControl isInvalid={!!error} isRequired={required}>
         <FormLabel>{label}</FormLabel>
-        <Input
+        <InputOrTextarea
           {...field}
           {...props}
           id={field.name}

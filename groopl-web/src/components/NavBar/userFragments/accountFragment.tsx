@@ -30,7 +30,7 @@ export const AccountFragment: React.FC<accountFragmentProps> = ({
         spacing={6}
       >
         <Flex alignItems={"center"}>
-          <Text as="b" mr={2}>
+          <Text display={{base: "none", md: "flex"}} as="b" mr={2}>
             {username}
           </Text>
           <Menu>

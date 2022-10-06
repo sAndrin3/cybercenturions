@@ -3,7 +3,7 @@ import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
 import React, { useState } from "react";
 import { InputField } from "../components/inputField";
-import { Wrapper } from "../components/wrapper";
+import { Layout } from "../components/Layout";
 import { useForgotPasswordMutation } from "../generated/graphql";
 import { CreateUrqlClient } from "../utils/createUrqlClient";
 
@@ -13,7 +13,7 @@ const ForgotPassword: React.FC<forgotPasswordProps> = ({}) => {
   const [, forgotPassword] = useForgotPasswordMutation();
   const [complete, setComplete] = useState(false);
   return (
-    <Wrapper
+    <Layout
       variant="small"
       heading="Forgot your password?"
       text={
@@ -63,7 +63,7 @@ const ForgotPassword: React.FC<forgotPasswordProps> = ({}) => {
           )
         }
       </Formik>
-    </Wrapper>
+    </Layout>
   );
 };
 
