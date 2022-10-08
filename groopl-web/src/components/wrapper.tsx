@@ -13,6 +13,7 @@ interface wrapperProps {
   variant?: "small" | "regular";
   text?: string;
   heading?: string;
+  top?: boolean;
 }
 
 export const Wrapper: React.FC<wrapperProps> = ({
@@ -20,11 +21,12 @@ export const Wrapper: React.FC<wrapperProps> = ({
   variant = "regular",
   text = "",
   heading,
+  top,
 }) => {
   return (
     <Flex
       minH={"100vh"}
-      align={"center"}
+      align={top ? "start" : "center"}
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
     >
@@ -32,7 +34,7 @@ export const Wrapper: React.FC<wrapperProps> = ({
         spacing={8}
         mx={"auto"}
         maxW={variant === "small" ? "md" : "lg"}
-        py={12}
+        py={2}
         px={6}
       >
         <Stack align={"center"}>
@@ -44,7 +46,11 @@ export const Wrapper: React.FC<wrapperProps> = ({
           </Text>
         </Stack>
         <Box
-          minW={{base:"xs" , md:"sm"}}
+          minW={
+            variant == "regular"
+              ? { base: "xs", md: "lg" }
+              : { base: "xs", md: "sm" }
+          }
           rounded={"lg"}
           bg={useColorModeValue("white", "gray.700")}
           boxShadow={"lg"}

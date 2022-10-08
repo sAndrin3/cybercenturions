@@ -7,6 +7,7 @@ interface LayoutProps {
   variant?: "small" | "regular";
   heading?: string;
   text?: string;
+  top?: boolean 
 }
 
 export const Layout: React.FC<LayoutProps> = ({
@@ -14,11 +15,12 @@ export const Layout: React.FC<LayoutProps> = ({
   heading,
   variant = "regular",
   text,
+  top,
 }) => {
   return (
     <>
       <NavBar />
-      <Wrapper variant={variant} heading={heading} text={text}>
+      <Wrapper variant={variant} heading={heading} text={text} top={top}>
         {children}
       </Wrapper>
     </>

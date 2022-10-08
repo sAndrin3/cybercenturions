@@ -1,22 +1,33 @@
-import { Stack, Button, Box } from "@chakra-ui/react";
-import { Formik, Form } from "formik";
+import { Box, Button, Stack } from "@chakra-ui/react";
+import { Form, Formik } from "formik";
+import { useRouter } from "next/router";
 import React from "react";
 import { InputField } from "../components/inputField";
 import { Layout } from "../components/Layout";
+import { useCreatePostMutation } from "../generated/graphql";
+import { UseIsAuth } from "../utils/useIsAuth";
 
 interface createPostProps {}
 
 const CreatePost: React.FC<createPostProps> = ({}) => {
+  const [, createPost] = useCreatePostMutation();
+  const router = useRouter();
+  UseIsAuth();
+  
   return (
     <Layout
       variant="regular"
       heading="Create Post"
       text="write something interesting"
+      top
     >
       <Formik
         initialValues={{ title: "", text: "" }}
         onSubmit={async (values) => {
-          console.log(values);
+          const { error } = await createPost({ input: values });
+          if (!error) {
+            router.push("/");
+          }
         }}
       >
         {({ isSubmitting }) => (
