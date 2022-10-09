@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./images/groopl.svg">
+  <img src="./images/">
 </p>
 
 <hr/>
