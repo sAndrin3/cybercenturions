@@ -4,4 +4,4 @@
 
 <hr/>
 
-social platform,__content rating, and discussion website for *students*
+social platform,__content__ rating, and discussion website for *students*
