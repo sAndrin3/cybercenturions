@@ -1,7 +1,7 @@
-<img src="./images/groopl.svg">
+<p align="center">
+  <img src="./images/groopl.svg">
+</p>
 
 <hr/>
 
-# groopl
-
-social platform,__content rating, and discussion website for *students*
+social platform,__content__ rating, and discussion website for *students*
