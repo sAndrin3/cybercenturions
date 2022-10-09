@@ -16,7 +16,7 @@ interface wrapperProps {
   top?: boolean;
 }
 
-export const Wrapper: React.FC<wrapperProps> = ({
+export const FormWrapper: React.FC<wrapperProps> = ({
   children,
   variant = "regular",
   text = "",
@@ -35,7 +35,7 @@ export const Wrapper: React.FC<wrapperProps> = ({
         mx={"auto"}
         maxW={variant === "small" ? "md" : "lg"}
         py={2}
-        px={6}
+        px={0}
       >
         <Stack align={"center"}>
           <Heading fontSize={"4xl"} textAlign={"center"}>

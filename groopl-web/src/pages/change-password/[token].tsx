@@ -2,7 +2,6 @@ import { Button, Box, Stack, Link } from "@chakra-ui/react";
 import { Formik, Form } from "formik";
 import { NextPage } from "next";
 import { InputField } from "../../components/inputField";
-import { Wrapper } from "../../components/wrapper";
 import { useChangePasswordMutation } from "../../generated/graphql";
 import { useRouter } from "next/router";
 import { ToErrorMap } from "../../utils/toErrorMap";
@@ -10,6 +9,7 @@ import { useState } from "react";
 import { withUrqlClient } from "next-urql";
 import { CreateUrqlClient } from "../../utils/createUrqlClient";
 import NextLink from "next/link";
+import { Layout } from "../../components/Layout";
 
 const ChangePassword: NextPage<{ token: string }> = ({ token }) => {
   const [, changePassword] = useChangePasswordMutation();
@@ -17,7 +17,7 @@ const ChangePassword: NextPage<{ token: string }> = ({ token }) => {
   const [tokenError, setTokenError] = useState("");
 
   return (
-    <Wrapper
+    <Layout
       variant="small"
       heading="Reset Your Password"
       text="set a cool strong password"
@@ -92,7 +92,7 @@ const ChangePassword: NextPage<{ token: string }> = ({ token }) => {
           </Form>
         )}
       </Formik>
-    </Wrapper>
+    </Layout>
   );
 };
 

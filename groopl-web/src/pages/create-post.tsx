@@ -1,19 +1,21 @@
 import { Box, Button, Stack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
+import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 import React from "react";
 import { InputField } from "../components/inputField";
 import { Layout } from "../components/Layout";
 import { useCreatePostMutation } from "../generated/graphql";
-import { UseIsAuth } from "../utils/useIsAuth";
+import { CreateUrqlClient } from "../utils/createUrqlClient";
+import { useIsAuth } from "../utils/useIsAuth";
 
 interface createPostProps {}
 
 const CreatePost: React.FC<createPostProps> = ({}) => {
   const [, createPost] = useCreatePostMutation();
   const router = useRouter();
-  UseIsAuth();
-  
+  useIsAuth()
+
   return (
     <Layout
       variant="regular"
@@ -71,4 +73,4 @@ const CreatePost: React.FC<createPostProps> = ({}) => {
   );
 };
 
-export default CreatePost;
+export default withUrqlClient(CreateUrqlClient)(CreatePost);

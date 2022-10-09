@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "./NavBar/navBar";
-import { Wrapper } from "./wrapper";
+import { Wrapper } from "./FormWrapper";
 
 interface LayoutProps {
   children: any;
