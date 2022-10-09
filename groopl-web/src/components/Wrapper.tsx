@@ -1,26 +1,20 @@
 import {
   Box,
   Flex,
-  Heading,
   Stack,
   useColorModeValue,
-  Text,
 } from "@chakra-ui/react";
 import React from "react";
 
 interface wrapperProps {
   children: any;
   variant?: "small" | "regular";
-  text?: string;
-  heading?: string;
   top?: boolean;
 }
 
-export const FormWrapper: React.FC<wrapperProps> = ({
+export const Wrapper: React.FC<wrapperProps> = ({
   children,
   variant = "regular",
-  text = "",
-  heading,
   top,
 }) => {
   return (
@@ -34,17 +28,9 @@ export const FormWrapper: React.FC<wrapperProps> = ({
         spacing={8}
         mx={"auto"}
         maxW={variant === "small" ? "md" : "lg"}
-        py={1}
+        py={2}
         px={0}
       >
-        <Stack align={"center"}>
-          <Heading fontSize={"4xl"} textAlign={"center"}>
-            {heading}
-          </Heading>
-          <Text fontSize={"lg"} color={"gray.600"}>
-            {text}
-          </Text>
-        </Stack>
         <Box
           minW={
             variant == "regular"

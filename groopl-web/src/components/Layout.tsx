@@ -1,13 +1,15 @@
 import React from "react";
 import NavBar from "./NavBar/navBar";
-import { Wrapper } from "./FormWrapper";
+import { FormWrapper } from "./FormWrapper";
+import { Wrapper } from "./Wrapper";
 
 interface LayoutProps {
   children: any;
   variant?: "small" | "regular";
   heading?: string;
   text?: string;
-  top?: boolean 
+  top?: boolean;
+  form?: boolean;
 }
 
 export const Layout: React.FC<LayoutProps> = ({
@@ -16,11 +18,22 @@ export const Layout: React.FC<LayoutProps> = ({
   variant = "regular",
   text,
   top,
+  form,
 }) => {
+  if (form) {
+    return (
+      <>
+        <NavBar />
+        <FormWrapper variant={variant} heading={heading} text={text} top={top}>
+          {children}
+        </FormWrapper>
+      </>
+    );
+  }
   return (
     <>
       <NavBar />
-      <Wrapper variant={variant} heading={heading} text={text} top={top}>
+      <Wrapper variant={variant} top={top}>
         {children}
       </Wrapper>
     </>

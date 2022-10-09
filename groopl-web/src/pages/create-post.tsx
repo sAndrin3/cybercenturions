@@ -22,6 +22,7 @@ const CreatePost: React.FC<createPostProps> = ({}) => {
       heading="Create Post"
       text="write something interesting"
       top
+      form
     >
       <Formik
         initialValues={{ title: "", text: "" }}

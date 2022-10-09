@@ -21,6 +21,7 @@ const ForgotPassword: React.FC<forgotPasswordProps> = ({}) => {
           ? "check your email"
           : "you'll get an email with the reset link"
       }
+      form
     >
       <Formik
         initialValues={{ email: "" }}

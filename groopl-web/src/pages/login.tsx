@@ -21,6 +21,7 @@ const Login: React.FC<loginProps> = ({}) => {
       variant="small"
       heading="Sign in to your account"
       text="to enjoy all of our cool features 🤟"
+      form
     >
       <Formik
         initialValues={{ usernameOrEmail: "", password: "" }}

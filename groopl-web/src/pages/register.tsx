@@ -17,7 +17,12 @@ const Register: React.FC<registerProps> = ({}) => {
   const router = useRouter();
 
   return (
-    <Layout variant="small" heading="Sign up" text="to create a new account">
+    <Layout
+      variant="small"
+      heading="Sign up"
+      text="to create a new account"
+      form
+    >
       <Formik
         initialValues={{ email: "", username: "", password: "" }}
         onSubmit={async (values, { setErrors }) => {

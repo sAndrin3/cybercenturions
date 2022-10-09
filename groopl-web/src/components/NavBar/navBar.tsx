@@ -7,7 +7,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import Logo from "../../assets/images/logos/groopl.svg";
+import Logo from "../../assets/images/logos/groopl.png";
 import Image from "next/image";
 import { useLogoutMutation, useMeQuery } from "../../generated/graphql";
 import { DesktopNav } from "./desktopNav";
