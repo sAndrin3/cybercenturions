@@ -46,7 +46,7 @@ export default function NavBar() {
   }, []);
 
   return (
-    <Box>
+    <Box zIndex={1} position="sticky" top={0}>
       <Flex
         bg={useColorModeValue("white", "gray.700")}
         color={useColorModeValue("gray.600", "white")}
@@ -56,12 +56,6 @@ export default function NavBar() {
         boxShadow={useColorModeValue("md", "lg")}
         borderColor={useColorModeValue("gray.300", "black")}
         align={"center"}
-        onScroll={(e) => {
-          e.currentTarget.style.backgroundColor = "rgba(100, 100, 100, 0.3)";
-        }}
-        position={"fixed"}
-        top={0}
-        width={"100%"}
       >
         <Flex
           flex={{ base: 1, md: "auto" }}

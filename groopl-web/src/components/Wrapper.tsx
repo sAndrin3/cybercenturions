@@ -1,9 +1,4 @@
-import {
-  Box,
-  Flex,
-  Stack,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Flex, Stack, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
 
 interface wrapperProps {
@@ -26,6 +21,7 @@ export const Wrapper: React.FC<wrapperProps> = ({
     >
       <Stack
         spacing={8}
+        mt={2}
         mx={"auto"}
         maxW={variant === "small" ? "md" : "lg"}
         py={2}
