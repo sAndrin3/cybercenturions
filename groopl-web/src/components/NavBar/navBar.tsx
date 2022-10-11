@@ -46,7 +46,7 @@ export default function NavBar() {
   }, []);
 
   return (
-    <Box position={"sticky"} scrollMarginY={"100%"}>
+    <Box>
       <Flex
         bg={useColorModeValue("white", "gray.700")}
         color={useColorModeValue("gray.600", "white")}
@@ -56,6 +56,12 @@ export default function NavBar() {
         boxShadow={useColorModeValue("md", "lg")}
         borderColor={useColorModeValue("gray.300", "black")}
         align={"center"}
+        onScroll={(e) => {
+          e.currentTarget.style.backgroundColor = "rgba(100, 100, 100, 0.3)";
+        }}
+        position={"fixed"}
+        top={0}
+        width={"100%"}
       >
         <Flex
           flex={{ base: 1, md: "auto" }}
@@ -73,7 +79,7 @@ export default function NavBar() {
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
           <NextLink href={"/"}>
-            <Image src={Logo} priority={true}/>
+            <Image src={Logo} priority={true} />
           </NextLink>
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav NAV_ITEMS={NAV_ITEMS} />

@@ -33,7 +33,7 @@ export const InputField: React.FC<inputFieldProps> = ({
   const [field, { error }] = useField(props);
   const [show, setShow] = useState(false);
   const handleIconClick = () => setShow(!show);
-  let InputOrTextarea =  Input;
+  let InputOrTextarea =  Input as any;
   if(textarea){
     InputOrTextarea = Textarea
   }

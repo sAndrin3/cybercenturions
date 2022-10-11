@@ -1,4 +1,4 @@
-import { COOKIE_NAME, dbName, dbPass, secret, __prod__ } from "./constants";
+import { COOKIE_NAME, dataSource, secret, __prod__ } from "./constants";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
@@ -13,23 +13,11 @@ import session from "express-session";
 import cors from "cors";
 import Redis from "ioredis";
 import connectRedis from "connect-redis";
-import { DataSource } from 'typeorm'
-import { Post } from "./entitites/Post";
-import { User } from "./entitites/User";
 
 const main = async () => {
-  const dataSource = new DataSource({
-    type: "postgres",
-    host: "localhost",
-    port: 5432,
-    username: "postgres",
-    password: dbPass,
-    database: dbName,
-    logging: true,
-    synchronize: true,
-    entities: [User, Post],
-  });
-  await dataSource.initialize()
+  await dataSource.initialize();
+
+  await dataSource.runMigrations();
 
   // await Post.delete({})
 

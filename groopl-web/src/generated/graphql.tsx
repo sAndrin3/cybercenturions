@@ -99,6 +99,12 @@ export type QueryPostArgs = {
   id: Scalars['Int'];
 };
 
+
+export type QueryPostsArgs = {
+  cursor?: InputMaybe<Scalars['String']>;
+  limit: Scalars['Int'];
+};
+
 export type User = {
   __typename?: 'User';
   createdAt: Scalars['String'];
@@ -190,10 +196,13 @@ export type PostQueryVariables = Exact<{
 
 export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id: number, createdAt: string, updatedAt: string, title: string, text: string, points: number, creatorId: number } | null };
 
-export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
+export type PostsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  cursor?: InputMaybe<Scalars['String']>;
+}>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: number, createdAt: string, updatedAt: string, title: string, text: string, points: number, creatorId: number }> };
+export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: number, createdAt: string, updatedAt: string, title: string }> };
 
 export const Post_DataFragmentDoc = gql`
     fragment Post_Data on Post {
@@ -325,13 +334,16 @@ export function usePostQuery(options: Omit<Urql.UseQueryArgs<PostQueryVariables>
   return Urql.useQuery<PostQuery, PostQueryVariables>({ query: PostDocument, ...options });
 };
 export const PostsDocument = gql`
-    query Posts {
-  posts {
-    ...Post_Data
+    query Posts($limit: Int!, $cursor: String) {
+  posts(limit: $limit, cursor: $cursor) {
+    id
+    createdAt
+    updatedAt
+    title
   }
 }
-    ${Post_DataFragmentDoc}`;
+    `;
 
-export function usePostsQuery(options?: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'>) {
+export function usePostsQuery(options: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'>) {
   return Urql.useQuery<PostsQuery, PostsQueryVariables>({ query: PostsDocument, ...options });
 };
