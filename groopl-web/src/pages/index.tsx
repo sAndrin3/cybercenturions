@@ -11,13 +11,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import {
-  BiDownvote,
-  BiUpvote,
-  BiComment,
-  BiShare,
-  BiEdit,
-} from "react-icons/bi";
+import { BiDownvote, BiUpvote } from "react-icons/bi";
 import NextLink from "next/link";
 
 const Index = () => {
@@ -41,9 +35,10 @@ const Index = () => {
               <Box
                 key={p.id}
                 shadow={useColorModeValue("md", "lg")}
+                bg={useColorModeValue("white", "gray.700")}
                 borderWidth={"1px"}
                 borderColor={useColorModeValue("gray.300", "gray.600")}
-                width={"800px"}
+                width={{ base: "inherit", md: "xl" }}
               >
                 <Flex>
                   <Box

@@ -17,7 +17,7 @@ export const Wrapper: React.FC<wrapperProps> = ({
       minH={"100vh"}
       align={top ? "start" : "center"}
       justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+      bg={useColorModeValue("gray.200", "gray.900")}
     >
       <Stack
         spacing={8}
