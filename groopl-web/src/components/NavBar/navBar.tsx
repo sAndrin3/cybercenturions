@@ -30,17 +30,21 @@ export default function NavBar() {
   const [, logout] = useLogoutMutation();
 
   let body;
+  if(isServer){
 
-  if (fetching) {
-    body = LoginRegisterFragment({ props: {} });
-    //body is null
-  } else if (!data?.me?.username) {
-    //set body to signup or login
-    body = LoginRegisterFragment({ props: {} });
-  } else if (data.me.username) {
-    const username = data.me.username;
-    body = AccountFragment({ username, logout });
+  } else {
+    if (fetching) {
+      body = null;
+      //body is null
+    } else if (!data?.me?.username) {
+      //set body to signup or login
+      body = LoginRegisterFragment({ props: {} });
+    } else if (data.me.username) {
+      const username = data.me.username;
+      body = AccountFragment({ username, logout });
+    }
   }
+  
   useEffect(() => {
     setIsServer(false);
   }, []);

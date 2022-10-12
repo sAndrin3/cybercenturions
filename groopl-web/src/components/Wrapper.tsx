@@ -34,8 +34,12 @@ export const Wrapper: React.FC<wrapperProps> = ({
               : { base: "xs", md: "sm" }
           }
           rounded={"lg"}
-          bg={useColorModeValue("white", "gray.700")}
-          boxShadow={"lg"}
+          bg={
+            variant == "regular"
+              ? "none"
+              : useColorModeValue("white", "gray.700")
+          }
+          boxShadow={variant == "regular" ? "none" : "lg"}
           p={8}
         >
           <Stack spacing={4}>{children}</Stack>
