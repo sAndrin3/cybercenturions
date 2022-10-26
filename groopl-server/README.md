@@ -1,7 +1,7 @@
 to set up the server locally, run:
 
 ``` bash 
- yarn install
+ yarn 
  
 ```
 create a postgreSQL database and set it up on your `.env` file 
