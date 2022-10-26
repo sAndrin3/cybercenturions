@@ -2,6 +2,5 @@
   <img src="./images/groopl.svg">
 </p>
 
-<hr/>
-
-social platform,__content__ rating, and discussion website for *students*
+<p align="center">
+  <strong>Social platform, content rating and discussion website for students</strong>
