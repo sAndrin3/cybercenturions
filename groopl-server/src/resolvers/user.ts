@@ -142,6 +142,10 @@ export class UserResolver {
       user = await User.create({
         email: options.email,
         username: options.username,
+        isDriver: options.isDriver,
+        car_plate: "",
+        avatar_source: "",
+        contact: "",
         password: hashedPassword,
       }).save();
     } catch (err) {

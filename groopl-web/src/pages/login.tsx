@@ -22,6 +22,7 @@ const Login: React.FC<loginProps> = ({}) => {
       heading="Sign in to your account"
       text="to enjoy all of our cool features 🤟"
       form
+      top
     >
       <Formik
         initialValues={{ usernameOrEmail: "", password: "" }}
@@ -35,7 +36,6 @@ const Login: React.FC<loginProps> = ({}) => {
             } else {
               router.push("/");
             }
-            
           }
         }}
       >
@@ -77,8 +77,10 @@ const Login: React.FC<loginProps> = ({}) => {
             <Stack pt={6}>
               <Text align={"center"}>
                 Don't have an account?
-                <NextLink href={"/register"}>
-                  <Link ml={3} color={"blue.400"}>Create one</Link>
+                <NextLink href={"/splash"}>
+                  <Link ml={3} color={"blue.400"}>
+                    Create one
+                  </Link>
                 </NextLink>
               </Text>
             </Stack>

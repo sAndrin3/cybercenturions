@@ -22,6 +22,7 @@ const Register: React.FC<registerProps> = ({}) => {
       heading="Sign up"
       text="to create a new account"
       form
+      top
     >
       <Formik
         initialValues={{ email: "", username: "", password: "" }}

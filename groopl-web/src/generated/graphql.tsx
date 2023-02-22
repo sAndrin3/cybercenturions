@@ -13,6 +13,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  DateTime: any;
 };
 
 export type FieldError = {
@@ -21,15 +22,28 @@ export type FieldError = {
   message: Scalars['String'];
 };
 
+export type Message = {
+  __typename?: 'Message';
+  createdAt: Scalars['String'];
+  id: Scalars['Float'];
+  is_read: Scalars['Boolean'];
+  receiver_id: Scalars['Float'];
+  sender_id: Scalars['Float'];
+  text: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   changePassword: UserResponse;
   createPost: Post;
+  createRide: Ride;
   deletePost: Scalars['Boolean'];
+  deleteRide: Scalars['Boolean'];
   forgotPassword: Scalars['Boolean'];
   login: UserResponse;
   logout: Scalars['Boolean'];
   register: UserResponse;
+  sendMessage: Message;
   updatePost?: Maybe<Post>;
 };
 
@@ -45,7 +59,17 @@ export type MutationCreatePostArgs = {
 };
 
 
+export type MutationCreateRideArgs = {
+  input: RideInput;
+};
+
+
 export type MutationDeletePostArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteRideArgs = {
   id: Scalars['Int'];
 };
 
@@ -66,6 +90,13 @@ export type MutationRegisterArgs = {
 };
 
 
+export type MutationSendMessageArgs = {
+  is_read: Scalars['Boolean'];
+  receiver_id: Scalars['Int'];
+  text: Scalars['String'];
+};
+
+
 export type MutationUpdatePostArgs = {
   id: Scalars['Int'];
   title: Scalars['String'];
@@ -74,6 +105,7 @@ export type MutationUpdatePostArgs = {
 export type Post = {
   __typename?: 'Post';
   createdAt: Scalars['String'];
+  creator: User;
   creatorId: Scalars['Float'];
   id: Scalars['Float'];
   points: Scalars['Float'];
@@ -93,6 +125,8 @@ export type Query = {
   me?: Maybe<User>;
   post?: Maybe<Post>;
   posts: Array<Post>;
+  ride?: Maybe<Ride>;
+  rides: Array<Ride>;
 };
 
 
@@ -106,11 +140,46 @@ export type QueryPostsArgs = {
   limit: Scalars['Int'];
 };
 
+
+export type QueryRideArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryRidesArgs = {
+  cursor?: InputMaybe<Scalars['String']>;
+  limit: Scalars['Int'];
+};
+
+export type Ride = {
+  __typename?: 'Ride';
+  createdAt: Scalars['String'];
+  creator: User;
+  creatorId: Scalars['Float'];
+  from: Scalars['String'];
+  id: Scalars['Float'];
+  seats: Scalars['Float'];
+  to: Scalars['String'];
+  updatedAt: Scalars['String'];
+  when: Scalars['DateTime'];
+};
+
+export type RideInput = {
+  from: Scalars['String'];
+  seats: Scalars['Float'];
+  to: Scalars['String'];
+  when: Scalars['DateTime'];
+};
+
 export type User = {
   __typename?: 'User';
+  avatar_source: Scalars['String'];
+  car_plate: Scalars['String'];
+  contact: Scalars['String'];
   createdAt: Scalars['String'];
   email: Scalars['String'];
   id: Scalars['Float'];
+  isDriver: Scalars['Boolean'];
   updatedAt: Scalars['String'];
   username: Scalars['String'];
 };
@@ -123,6 +192,7 @@ export type UserResponse = {
 
 export type UsernameEmailPasswordInput = {
   email: Scalars['String'];
+  isDriver: Scalars['Boolean'];
   password: Scalars['String'];
   username: Scalars['String'];
 };
@@ -130,6 +200,8 @@ export type UsernameEmailPasswordInput = {
 export type Error_DataFragment = { __typename?: 'FieldError', field: string, message: string };
 
 export type Post_DataFragment = { __typename?: 'Post', id: number, createdAt: string, updatedAt: string, title: string, text: string, points: number, creatorId: number };
+
+export type Ride_DataFragment = { __typename?: 'Ride', id: number, to: string, from: string, when: any, seats: number, creatorId: number, createdAt: string, updatedAt: string };
 
 export type User_DataFragment = { __typename?: 'User', id: number, username: string };
 
@@ -149,6 +221,13 @@ export type CreatePostMutationVariables = Exact<{
 
 
 export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: number, createdAt: string, updatedAt: string, title: string, text: string, points: number, creatorId: number } };
+
+export type CreateRideMutationVariables = Exact<{
+  input: RideInput;
+}>;
+
+
+export type CreateRideMutation = { __typename?: 'Mutation', createRide: { __typename?: 'Ride', id: number, to: string, from: string, when: any, seats: number, creatorId: number, createdAt: string, updatedAt: string } };
 
 export type ForgotPasswordMutationVariables = Exact<{
   email: Scalars['String'];
@@ -176,6 +255,15 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string } | null } };
+
+export type SendMessageMutationVariables = Exact<{
+  text: Scalars['String'];
+  receiver_id: Scalars['Int'];
+  is_read: Scalars['Boolean'];
+}>;
+
+
+export type SendMessageMutation = { __typename?: 'Mutation', sendMessage: { __typename?: 'Message', id: number, sender_id: number, receiver_id: number, text: string, is_read: boolean, createdAt: string } };
 
 export type UpdatePostMutationVariables = Exact<{
   title: Scalars['String'];
@@ -205,6 +293,21 @@ export type PostsQueryVariables = Exact<{
 
 export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: number, createdAt: string, updatedAt: string, title: string, textSnippet: string, points: number, creatorId: number }> };
 
+export type RideQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type RideQuery = { __typename?: 'Query', ride?: { __typename?: 'Ride', id: number, to: string, from: string, when: any, seats: number, creatorId: number, createdAt: string, updatedAt: string } | null };
+
+export type RidesQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  cursor?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type RidesQuery = { __typename?: 'Query', rides: Array<{ __typename?: 'Ride', id: number, to: string, from: string, when: any, seats: number, creatorId: number, createdAt: string, updatedAt: string }> };
+
 export const Post_DataFragmentDoc = gql`
     fragment Post_Data on Post {
   id
@@ -214,6 +317,18 @@ export const Post_DataFragmentDoc = gql`
   text
   points
   creatorId
+}
+    `;
+export const Ride_DataFragmentDoc = gql`
+    fragment Ride_Data on Ride {
+  id
+  to
+  from
+  when
+  seats
+  creatorId
+  createdAt
+  updatedAt
 }
     `;
 export const Error_DataFragmentDoc = gql`
@@ -261,6 +376,17 @@ export const CreatePostDocument = gql`
 export function useCreatePostMutation() {
   return Urql.useMutation<CreatePostMutation, CreatePostMutationVariables>(CreatePostDocument);
 };
+export const CreateRideDocument = gql`
+    mutation CreateRide($input: RideInput!) {
+  createRide(input: $input) {
+    ...Ride_Data
+  }
+}
+    ${Ride_DataFragmentDoc}`;
+
+export function useCreateRideMutation() {
+  return Urql.useMutation<CreateRideMutation, CreateRideMutationVariables>(CreateRideDocument);
+};
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email)
@@ -300,6 +426,22 @@ export const RegisterDocument = gql`
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
+};
+export const SendMessageDocument = gql`
+    mutation sendMessage($text: String!, $receiver_id: Int!, $is_read: Boolean!) {
+  sendMessage(text: $text, receiver_id: $receiver_id, is_read: $is_read) {
+    id
+    sender_id
+    receiver_id
+    text
+    is_read
+    createdAt
+  }
+}
+    `;
+
+export function useSendMessageMutation() {
+  return Urql.useMutation<SendMessageMutation, SendMessageMutationVariables>(SendMessageDocument);
 };
 export const UpdatePostDocument = gql`
     mutation UpdatePost($title: String!, $id: Int!) {
@@ -350,4 +492,26 @@ export const PostsDocument = gql`
 
 export function usePostsQuery(options: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'>) {
   return Urql.useQuery<PostsQuery, PostsQueryVariables>({ query: PostsDocument, ...options });
+};
+export const RideDocument = gql`
+    query Ride($id: Int!) {
+  ride(id: $id) {
+    ...Ride_Data
+  }
+}
+    ${Ride_DataFragmentDoc}`;
+
+export function useRideQuery(options: Omit<Urql.UseQueryArgs<RideQueryVariables>, 'query'>) {
+  return Urql.useQuery<RideQuery, RideQueryVariables>({ query: RideDocument, ...options });
+};
+export const RidesDocument = gql`
+    query Rides($limit: Int!, $cursor: String) {
+  rides(limit: $limit, cursor: $cursor) {
+    ...Ride_Data
+  }
+}
+    ${Ride_DataFragmentDoc}`;
+
+export function useRidesQuery(options: Omit<Urql.UseQueryArgs<RidesQueryVariables>, 'query'>) {
+  return Urql.useQuery<RidesQuery, RidesQueryVariables>({ query: RidesDocument, ...options });
 };

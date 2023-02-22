@@ -3,6 +3,8 @@ import { DataSource } from "typeorm";
 import { Post } from "./entitites/Post";
 import { User } from "./entitites/User";
 import path from "path";
+import { Ride } from './entitites/Ride';
+import { Message } from './entitites/Message';
 dotenv.config();
 
 export const __prod__ = process.env["NODE_ENV"] === "production";
@@ -22,5 +24,5 @@ export const dataSource = new DataSource({
   logging: true,
   migrations: [path.join(__dirname, "./migrations/*")],
   synchronize: true,
-  entities: [User, Post],
+  entities: [User, Post, Ride, Message],
 });

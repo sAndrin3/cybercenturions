@@ -11,8 +11,8 @@ import {
   UseMiddleware,
   FieldResolver,
   Root,
-} from "type-graphql";
-import { MyContext } from "src/types";
+} from "type-graphql";  
+import { MyContext } from "../types";
 import { IsAuth } from "../middlewares/isAuth";
 import { dataSource } from "../constants";
 

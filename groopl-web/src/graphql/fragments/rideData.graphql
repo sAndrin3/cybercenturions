@@ -1,0 +1,10 @@
+fragment Ride_Data on Ride {
+  id
+  to
+  from
+  when
+  seats
+  creatorId
+  createdAt
+  updatedAt
+}

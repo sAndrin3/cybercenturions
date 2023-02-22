@@ -1,16 +1,16 @@
 import nodemailer from "nodemailer";
 
 export async function SendEmail(to: string, html: string) {
-  // let testAccount = await nodemailer.createTestAccount();
+  let testAccount = await nodemailer.createTestAccount();
 
-  // console.log("testAccount: ", testAccount);
+  console.log("testAccount: ", testAccount);
   let transporter = nodemailer.createTransport({
     host: "smtp.ethereal.email",
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: "ttnbunovv3vuv2tx@ethereal.email", // generated ethereal user
-      pass: "sFhAR8HBwxzj2w8QMh", // generated ethereal password
+      user: testAccount.user, // generated ethereal user
+      pass: testAccount.pass, // generated ethereal password
     },
   });
 

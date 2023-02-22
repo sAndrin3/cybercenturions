@@ -16,7 +16,7 @@ export const Wrapper: React.FC<wrapperProps> = ({
     <Flex
       minH={"100vh"}
       align={top ? "start" : "center"}
-      justify={"center"}
+      justify={ "center"}
       bg={useColorModeValue("gray.200", "gray.900")}
     >
       <Stack

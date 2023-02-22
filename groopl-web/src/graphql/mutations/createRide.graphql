@@ -1,0 +1,5 @@
+mutation CreateRide($input: RideInput!) {
+  createRide(input: $input) {
+    ...Ride_Data
+  }
+}

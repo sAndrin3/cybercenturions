@@ -13,13 +13,14 @@ import session from "express-session";
 import cors from "cors";
 import Redis from "ioredis";
 import connectRedis from "connect-redis";
+import { RideResolver } from "./resolvers/ride";
+import { MessageResolver } from "./resolvers/message";
 
 const main = async () => {
+  
   await dataSource.initialize();
 
   await dataSource.runMigrations();
-
-  // await Post.delete({})
 
   const app = express();
 
@@ -58,7 +59,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [PostResolver, UserResolver],
+      resolvers: [PostResolver, UserResolver, RideResolver, MessageResolver],
       validate: false,
     }),
     plugins: [

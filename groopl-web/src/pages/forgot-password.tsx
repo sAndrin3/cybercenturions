@@ -1,4 +1,4 @@
-import { Stack, Button, Box, Text } from "@chakra-ui/react";
+import { Stack, Button, Box, Text, useColorModeValue } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
 import React, { useState } from "react";
@@ -32,10 +32,14 @@ const ForgotPassword: React.FC<forgotPasswordProps> = ({}) => {
       >
         {({ isSubmitting }) =>
           complete ? (
-            <Text fontSize={"lg"} fontStyle={'oblique'} color={'black'}>
-                if an account with that email exists
-                <br/>
-                We just sent You an email with the reset link.
+            <Text
+              fontSize={"lg"}
+              fontStyle={"oblique"}
+              color={useColorModeValue("black", "gray.200")}
+            >
+              if an account with that email exists
+              <br />
+              We just sent You an email with the reset link.
             </Text>
           ) : (
             <Form>

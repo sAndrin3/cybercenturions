@@ -8,4 +8,6 @@ export class UsernameEmailPasswordInput {
   username: string;
   @Field()
   password: string;
+  @Field()
+  isDriver: boolean;
 }

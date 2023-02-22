@@ -1,0 +1,5 @@
+query Rides($limit: Int!, $cursor: String) {
+  rides(limit: $limit, cursor: $cursor) {
+    ...Ride_Data
+  }
+}

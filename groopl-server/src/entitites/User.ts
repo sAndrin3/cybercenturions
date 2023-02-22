@@ -9,6 +9,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { Post } from "./Post";
+import { Ride } from "./Ride";
 
 @ObjectType()
 @Entity()
@@ -22,14 +23,33 @@ export class User extends BaseEntity {
   username!: string;
 
   @Field()
+  @Column()
+  contact: string;
+
+  @Field()
   @Column({ unique: true })
   email!: string;
+
+  @Field()
+  @Column()
+  isDriver: Boolean;
+
+  @Field()
+  @Column()
+  car_plate: string;
+
+  @Field()
+  @Column()
+  avatar_source: string;
 
   @Column()
   password!: string;
 
-  @OneToMany(() => Post, post => post.creator)
+  @OneToMany(() => Post, (post) => post.creator)
   posts: Post[];
+
+  @OneToMany(() => Ride, (ride) => ride.creator)
+  rides: Ride[];
 
   @Field(() => String)
   @CreateDateColumn()

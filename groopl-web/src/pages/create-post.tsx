@@ -14,7 +14,7 @@ interface createPostProps {}
 const CreatePost: React.FC<createPostProps> = ({}) => {
   const [, createPost] = useCreatePostMutation();
   const router = useRouter();
-  useIsAuth()
+  // useIsAuth()
 
   return (
     <Layout

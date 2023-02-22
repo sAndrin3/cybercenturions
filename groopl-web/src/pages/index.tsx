@@ -1,74 +1,114 @@
-import { withUrqlClient } from "next-urql";
-import { Layout } from "../components/Layout";
-import { usePostsQuery } from "../generated/graphql";
-import { CreateUrqlClient } from "../utils/createUrqlClient";
 import {
   Box,
-  Flex,
+  Container,
   Heading,
-  Link,
   Stack,
-  Text,
   useColorModeValue,
+  Text,
 } from "@chakra-ui/react";
-import { BiDownvote, BiUpvote } from "react-icons/bi";
-import NextLink from "next/link";
+import { withUrqlClient } from "next-urql";
+import Link from "next/link";
+import NavBar from "../components/NavBar/navBar";
+import { CreateUrqlClient } from "../utils/createUrqlClient";
+import { useIsAuth } from "../utils/useIsAuth";
 
 const Index = () => {
-  const [{ data }] = usePostsQuery({
-    variables: {
-      limit: 10,
-    },
-  });
+  useIsAuth();
+  
   return (
-    <Layout variant="regular" top>
-      <NextLink href={"/create-post"}>
-        <Link ml="auto">CreatePost</Link>
-      </NextLink>
-      <br />
-      {!data ? (
-        <div>Loading...</div>
-      ) : (
-        <Stack spacing={8}>
-          {data.posts.map((p) => (
-            <Flex>
-              <Box
-                key={p.id}
-                shadow={useColorModeValue("md", "lg")}
-                bg={useColorModeValue("white", "gray.700")}
-                borderWidth={"1px"}
-                borderColor={useColorModeValue("gray.300", "gray.600")}
-                width={{ base: "inherit", md: "xl" }}
-              >
-                <Flex>
-                  <Box
-                    textAlign={"center"}
-                    alignContent={"start"}
-                    p={2}
-                    bg={"rgba(0,0,0,0.1)"}
-                    fontWeight={"500"}
-                  >
-                    <BiUpvote
-                      size={20}
-                      color={useColorModeValue("gray300", "gray100")}
-                    />
-                    {p.points}
-                    <BiDownvote
-                      size={20}
-                      color={useColorModeValue("gray300", "gray100")}
-                    />
-                  </Box>
-                  <Box m={0} py={4} ml={2}>
-                    <Heading fontSize={"xl"}>{p.title}</Heading>
-                    <Text mt={4}>{p.textSnippet}...</Text>
-                  </Box>
-                </Flex>
-              </Box>
-            </Flex>
-          ))}
+    <>
+      <NavBar />
+      <Container maxW={"7xl"} py={16} as={Stack} spacing={12}>
+        <Stack spacing={0} align={"center"}>
+          <Heading>Let's Get You Places</Heading>
+          <Text>Offer and Request rides from anywhere</Text>
         </Stack>
-      )}
-    </Layout>
+        <Stack
+          direction={{ base: "column", md: "row" }}
+          spacing={{ base: 10, md: 4, lg: 10 }}
+          justify={"center"}
+          mx={"auto"}
+          py={16}
+        >
+          <Box>
+            <Stack
+              bg={useColorModeValue("white", "gray.700")}
+              boxShadow={"lg"}
+              p={8}
+              rounded={"xl"}
+              align={"center"}
+              pos={"relative"}
+              padding={10}
+            >
+              <Heading as={"h3"} fontSize={"xl"}>
+                Offer a Ride
+              </Heading>
+              <Text
+                textAlign={"center"}
+                color={useColorModeValue("gray.600", "gray.400")}
+                fontSize={"sm"}
+                p={5}
+              >
+                {" "}
+                Share rides with people in your area and travel together
+              </Text>
+              <Box
+                as="button"
+                py={3}
+                px={10}
+                color="white"
+                fontWeight="bold"
+                borderRadius="md"
+                bgGradient="linear(to-r, teal.500, green.500)"
+                _hover={{
+                  bgGradient: "linear(to-r, red.500, yellow.500)",
+                }}
+              >
+                <Link href={"/offer"}>Create a ride</Link>
+              </Box>
+            </Stack>
+          </Box>
+          <Box>
+            <Stack
+              bg={useColorModeValue("white", "gray.700")}
+              boxShadow={"lg"}
+              p={8}
+              rounded={"xl"}
+              align={"center"}
+              pos={"relative"}
+              padding={10}
+            >
+              <Heading as={"h3"} fontSize={"xl"}>
+                Request a Ride
+              </Heading>
+              <Text
+                textAlign={"center"}
+                color={useColorModeValue("gray.600", "gray.400")}
+                fontSize={"sm"}
+                p={5}
+              >
+                {" "}
+                Get rides from your area, at an affordable price
+              </Text>
+              <Box
+                as="button"
+                py={3}
+                px={10}
+                color="white"
+                fontWeight="bold"
+                borderRadius="md"
+                bgGradient="linear(to-r, teal.500, green.500)"
+                _hover={{
+                  bgGradient: "linear(to-r, red.500, yellow.500)",
+                }}
+              >
+                <Link href={"/request"}>Get a ride</Link>
+              </Box>
+            </Stack>
+          </Box>
+        </Stack>
+      </Container>
+    </>
   );
 };
 
