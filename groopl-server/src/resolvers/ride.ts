@@ -8,6 +8,7 @@ import {
   InputType,
   Int,
   Mutation,
+  ObjectType,
   Query,
   Resolver,
   Root,
@@ -32,6 +33,14 @@ class RideInput {
   seats: number;
 }
 
+@ObjectType()
+class PaginatedRides {
+  @Field(() => [Ride])
+  rides: Ride[];
+  @Field()
+  hasMore: boolean;
+}
+
 @Resolver(Ride)
 export class RideResolver {
   @FieldResolver(() => User)
@@ -53,24 +62,30 @@ export class RideResolver {
     }).save();
   }
 
-  @Query(() => [Ride])
-  rides(
+  @Query(() => PaginatedRides)
+  async rides(
     @Arg("limit", () => Int) limit: number,
     @Arg("cursor", () => String, { nullable: true }) cursor: string | null
-  ): Promise<Ride[]> {
+  ): Promise<PaginatedRides> {
     const capLimit = Math.min(50, limit);
+    const reaLimitPlusOne = capLimit + 1;
     const qb = dataSource
       .getRepository(Ride)
       .createQueryBuilder("p")
       .orderBy('"createdAt"', "DESC")
-      .take(capLimit);
+      .take(reaLimitPlusOne);
     if (cursor) {
       qb.where('"createdAt" < :cursor', {
         cursor: new Date(parseInt(cursor)),
       });
     }
 
-    return qb.getMany();
+    const rides = await qb.getMany();
+
+    return {
+      rides: rides.slice(0, capLimit),
+      hasMore: rides.length === reaLimitPlusOne,
+    };
   }
 
   @Query(() => Ride, { nullable: true })

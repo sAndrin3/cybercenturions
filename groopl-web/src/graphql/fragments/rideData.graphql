@@ -4,6 +4,10 @@ fragment Ride_Data on Ride {
   from
   when
   seats
+  # creator{
+  #   id
+  #   username
+  # }
   creatorId
   createdAt
   updatedAt

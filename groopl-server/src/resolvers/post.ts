@@ -11,6 +11,7 @@ import {
   UseMiddleware,
   FieldResolver,
   Root,
+  ObjectType,
 } from "type-graphql";  
 import { MyContext } from "../types";
 import { IsAuth } from "../middlewares/isAuth";
@@ -25,6 +26,15 @@ class PostInput {
   text: string;
 }
 
+
+@ObjectType()
+class PaginatedPosts {
+  @Field(() => [Post])
+  posts: Post[];
+
+  @Field()
+  hasMore: boolean;
+}
 @Resolver(Post)
 export class PostResolver {
   @FieldResolver(() => String)
@@ -32,7 +42,7 @@ export class PostResolver {
     return root.text.slice(0, 50);
   }
 
-  @Query(() => [Post])
+  @Query(() => PaginatedPosts)
   posts(
     @Arg("limit", () => Int) limit: number,
     @Arg("cursor", () => String, { nullable: true }) cursor: string | null

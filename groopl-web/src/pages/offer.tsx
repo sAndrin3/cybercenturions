@@ -28,18 +28,24 @@ const Register: React.FC<registerProps> = ({}) => {
         initialValues={{
           to: "",
           from: "",
-          when: dayjs(),
+          when: dayjs().toDate().toISOString(),
           seats: 0,
         }}
         onSubmit={async (values) => {
-          const response = await createRide({ input: values });
-          console.log(values.when);
+          const response = await createRide({ input: values })
+            .then((res) => {
+              console.log(res);
+              return res;
+            })
+            .catch((e) => {
+              console.log("Error:", e);
+            });
           if (response) {
             router.push("/offers");
           }
         }}
       >
-        {({ isSubmitting, initialValues,setFieldValue }) => (
+        {({ isSubmitting, initialValues, setFieldValue }) => (
           <Form>
             <InputField
               name="from"

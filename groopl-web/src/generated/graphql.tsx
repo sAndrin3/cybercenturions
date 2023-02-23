@@ -102,6 +102,18 @@ export type MutationUpdatePostArgs = {
   title: Scalars['String'];
 };
 
+export type PaginatedPosts = {
+  __typename?: 'PaginatedPosts';
+  hasMore: Scalars['Boolean'];
+  posts: Array<Post>;
+};
+
+export type PaginatedRides = {
+  __typename?: 'PaginatedRides';
+  hasMore: Scalars['Boolean'];
+  rides: Array<Ride>;
+};
+
 export type Post = {
   __typename?: 'Post';
   createdAt: Scalars['String'];
@@ -124,9 +136,9 @@ export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
   post?: Maybe<Post>;
-  posts: Array<Post>;
+  posts: PaginatedPosts;
   ride?: Maybe<Ride>;
-  rides: Array<Ride>;
+  rides: PaginatedRides;
 };
 
 
@@ -215,13 +227,6 @@ export type ChangePasswordMutationVariables = Exact<{
 
 export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, username: string } | null } };
 
-export type CreatePostMutationVariables = Exact<{
-  input: PostInput;
-}>;
-
-
-export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: number, createdAt: string, updatedAt: string, title: string, text: string, points: number, creatorId: number } };
-
 export type CreateRideMutationVariables = Exact<{
   input: RideInput;
 }>;
@@ -278,21 +283,6 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, username: string } | null };
 
-export type PostQueryVariables = Exact<{
-  id: Scalars['Int'];
-}>;
-
-
-export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id: number, createdAt: string, updatedAt: string, title: string, text: string, points: number, creatorId: number } | null };
-
-export type PostsQueryVariables = Exact<{
-  limit: Scalars['Int'];
-  cursor?: InputMaybe<Scalars['String']>;
-}>;
-
-
-export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: number, createdAt: string, updatedAt: string, title: string, textSnippet: string, points: number, creatorId: number }> };
-
 export type RideQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -306,7 +296,7 @@ export type RidesQueryVariables = Exact<{
 }>;
 
 
-export type RidesQuery = { __typename?: 'Query', rides: Array<{ __typename?: 'Ride', id: number, to: string, from: string, when: any, seats: number, creatorId: number, createdAt: string, updatedAt: string }> };
+export type RidesQuery = { __typename?: 'Query', rides: { __typename?: 'PaginatedRides', hasMore: boolean, rides: Array<{ __typename?: 'Ride', id: number, to: string, from: string, when: any, seats: number, creatorId: number, createdAt: string, updatedAt: string }> } };
 
 export const Post_DataFragmentDoc = gql`
     fragment Post_Data on Post {
@@ -364,17 +354,6 @@ export const ChangePasswordDocument = gql`
 
 export function useChangePasswordMutation() {
   return Urql.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument);
-};
-export const CreatePostDocument = gql`
-    mutation CreatePost($input: PostInput!) {
-  createPost(input: $input) {
-    ...Post_Data
-  }
-}
-    ${Post_DataFragmentDoc}`;
-
-export function useCreatePostMutation() {
-  return Urql.useMutation<CreatePostMutation, CreatePostMutationVariables>(CreatePostDocument);
 };
 export const CreateRideDocument = gql`
     mutation CreateRide($input: RideInput!) {
@@ -465,34 +444,6 @@ export const MeDocument = gql`
 export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
   return Urql.useQuery<MeQuery, MeQueryVariables>({ query: MeDocument, ...options });
 };
-export const PostDocument = gql`
-    query Post($id: Int!) {
-  post(id: $id) {
-    ...Post_Data
-  }
-}
-    ${Post_DataFragmentDoc}`;
-
-export function usePostQuery(options: Omit<Urql.UseQueryArgs<PostQueryVariables>, 'query'>) {
-  return Urql.useQuery<PostQuery, PostQueryVariables>({ query: PostDocument, ...options });
-};
-export const PostsDocument = gql`
-    query Posts($limit: Int!, $cursor: String) {
-  posts(limit: $limit, cursor: $cursor) {
-    id
-    createdAt
-    updatedAt
-    title
-    textSnippet
-    points
-    creatorId
-  }
-}
-    `;
-
-export function usePostsQuery(options: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'>) {
-  return Urql.useQuery<PostsQuery, PostsQueryVariables>({ query: PostsDocument, ...options });
-};
 export const RideDocument = gql`
     query Ride($id: Int!) {
   ride(id: $id) {
@@ -507,10 +458,20 @@ export function useRideQuery(options: Omit<Urql.UseQueryArgs<RideQueryVariables>
 export const RidesDocument = gql`
     query Rides($limit: Int!, $cursor: String) {
   rides(limit: $limit, cursor: $cursor) {
-    ...Ride_Data
+    hasMore
+    rides {
+      id
+      to
+      from
+      when
+      seats
+      creatorId
+      createdAt
+      updatedAt
+    }
   }
 }
-    ${Ride_DataFragmentDoc}`;
+    `;
 
 export function useRidesQuery(options: Omit<Urql.UseQueryArgs<RidesQueryVariables>, 'query'>) {
   return Urql.useQuery<RidesQuery, RidesQueryVariables>({ query: RidesDocument, ...options });
