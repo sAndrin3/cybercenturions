@@ -64,7 +64,7 @@ const Index = () => {
                   bgGradient: "linear(to-r, red.500, yellow.500)",
                 }}
               >
-                <Link href={"/offer"}>Create a ride</Link>
+                <Link href={"/create-ride"}>Create a ride</Link>
               </Box>
             </Stack>
           </Box>

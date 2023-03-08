@@ -32,16 +32,17 @@ const Register: React.FC<registerProps> = ({}) => {
           seats: 0,
         }}
         onSubmit={async (values) => {
-          const response = await createRide({ input: values })
-            .then((res) => {
-              console.log(res);
-              return res;
-            })
-            .catch((e) => {
-              console.log("Error:", e);
-            });
-          if (response) {
-            router.push("/offers");
+          const { error } = await createRide({
+            input: {
+              to: values.to,
+              from: values.from,
+              when: values.when,
+              seats: parseFloat(values.seats),
+            },
+          });
+          console.log(error);
+          if (!error) {
+            router.push("/rides");
           }
         }}
       >
@@ -63,11 +64,18 @@ const Register: React.FC<registerProps> = ({}) => {
             <Box mt={4} />
             <DatePickerInput
               name="when"
-              placeholder="DD/MM/YY 00:00"
+              placeholder="DD-MM-YYYY 00:00:00"
               showTimeSelector
+              showOkButton
+              showSelectableDays
+              okText="Done"
+              onOk={(e) => {
+                setFieldValue("when", e.toDate().toISOString());
+                console.log(initialValues);
+              }}
+              size="lg"
               format="DD-MM-YYYY HH:mm:ss"
               currentLangKey="en"
-              showSelectableDays
             />
             <InputField
               name="seats"

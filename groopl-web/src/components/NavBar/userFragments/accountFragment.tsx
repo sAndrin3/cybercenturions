@@ -36,7 +36,7 @@ export const AccountFragment: React.FC<accountFragmentProps> = ({
           <Menu>
             <MenuButton
               as={Button}
-              rounded={"full"}
+              rounded={"md"}
               variant={"link"}
               cursor={"pointer"}
               minW={0}

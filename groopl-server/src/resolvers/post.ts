@@ -16,6 +16,7 @@ import {
 import { MyContext } from "../types";
 import { IsAuth } from "../middlewares/isAuth";
 import { dataSource } from "../constants";
+import { User } from "../entitites/User";
 
 @InputType()
 class PostInput {
@@ -25,7 +26,6 @@ class PostInput {
   @Field()
   text: string;
 }
-
 
 @ObjectType()
 class PaginatedPosts {
@@ -40,6 +40,13 @@ export class PostResolver {
   @FieldResolver(() => String)
   textSnippet(@Root() root: Post) {
     return root.text.slice(0, 50);
+  }
+
+  @FieldResolver(() => User)
+  creator(@Root() post: Post, @Ctx() { userLoader }: MyContext) {
+    const user = userLoader.load(post.creatorId);
+    console.log(user);
+    return user;
   }
 
   @Query(() => PaginatedPosts)

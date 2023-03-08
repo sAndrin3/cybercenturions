@@ -24,5 +24,5 @@ export const dataSource = new DataSource({
   logging: true,
   migrations: [path.join(__dirname, "./migrations/*")],
   synchronize: true,
-  entities: [User, Post, Ride, Message],
+  entities: [User, Post, Ride, Message], 
 });

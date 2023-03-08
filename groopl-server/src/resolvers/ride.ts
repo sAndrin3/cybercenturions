@@ -56,6 +56,7 @@ export class RideResolver {
     @Arg("input", () => RideInput) input: RideInput,
     @Ctx() { req }: MyContext
   ): Promise<Ride> {
+    input.seats = parseFloat(input.seats.toString());
     return Ride.create({
       ...input,
       creatorId: req.session.userId,

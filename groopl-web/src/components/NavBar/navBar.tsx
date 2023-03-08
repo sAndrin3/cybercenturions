@@ -103,14 +103,9 @@ const NAV_ITEMS: Array<NavItem> = [
     label: "Rides",
     children: [
       {
-        label: "Requested Rides",
-        subLabel: "Rides You requested for",
-        href: "/requests",
-      },
-      {
         label: "Offered Rides",
         subLabel: "Rides you offered",
-        href: "/offers",
+        href: "/rides",
       },
     ],
   },
