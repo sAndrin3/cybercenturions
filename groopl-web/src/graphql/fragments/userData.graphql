@@ -1,4 +1,0 @@
-fragment User_Data on User {
-    id
-    username
-}

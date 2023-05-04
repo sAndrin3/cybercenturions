@@ -1,5 +1,0 @@
-mutation UpdatePost($title: String!, $id: Int!) {
-  updatePost(title: $title, id: $id) {
-    ...Post_Data
-  }
-}

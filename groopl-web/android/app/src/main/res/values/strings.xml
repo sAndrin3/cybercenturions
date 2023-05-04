@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">Groopl</string>
-    <string name="title_activity_main">Groopl</string>
-    <string name="package_name">com.groopl.app</string>
-    <string name="custom_url_scheme">com.groopl.app</string>
-</resources>

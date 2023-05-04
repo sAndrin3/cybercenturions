@@ -1,5 +1,0 @@
-query Ride($id: Int!) {
-  ride(id: $id) {
-    ...Ride_Data
-  }
-}

@@ -1,8 +1,0 @@
-fragment UserResponse_Data on UserResponse {
-  errors {
-    ...Error_Data
-  }
-  user {
-    ...User_Data
-  }
-}
